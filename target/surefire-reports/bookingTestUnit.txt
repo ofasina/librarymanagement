@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: bookingTestUnit
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 83.725 s <<< FAILURE! - in bookingTestUnit
+addBookValidRequestTest  Time elapsed: 19.003 s  <<< ERROR!
+javax.validation.ConstraintViolationException: createBook.request.isbn: only numeric values
+	at bookingTestUnit.addBookValidRequestTest(bookingTestUnit.java:57)
+
