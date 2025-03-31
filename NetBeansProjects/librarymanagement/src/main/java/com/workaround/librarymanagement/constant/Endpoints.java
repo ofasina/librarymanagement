@@ -20,15 +20,18 @@ public class Endpoints {
     public static final String UPDATE_BOOK = "/api/books/{id}";
     public static final String ALL_BOOKS = "/api/books";
     public static final String BOOK_ID = "/api/books/{id}";
-    
+    public static final String BOOK_TITLE = "/api/books/{title}";
+    public static final String BOOK_AUTHOR = "/api/books/{author}";
+
     //patron management
-      public static final String CREATE_PATRON = "/api/patrons";
+    public static final String CREATE_PATRON = "/api/patrons";
     public static final String DELETE_PATRON = "/api/patrons/{id}";
     public static final String UPDATE_PATRON = "/api/patrons/{id}";
     public static final String ALL_PATRONS = "/api/patrons";
     public static final String PATRON_ID = "/api/patrons/{id}";
-    
+    public static final String PATRON_NAME = "/api/patrons/{name}";
+
     //borrowing manaagement
-    public static final String BORROW_BOOK ="/api/borrow/{bookId}/patron/{patronId}";
-    public static final String RETURN_BOOK ="/api/return/{bookId}/patron/{patronId}";
+    public static final String BORROW_BOOK = "/api/borrow/{bookId}/patron/{patronId}";
+    public static final String RETURN_BOOK = "/api/return/{bookId}/patron/{patronId}";
 }

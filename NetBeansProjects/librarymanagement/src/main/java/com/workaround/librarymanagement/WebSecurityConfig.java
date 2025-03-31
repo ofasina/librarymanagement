@@ -11,9 +11,11 @@ import com.workaround.librarymanagement.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -38,8 +40,10 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity)
             throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity
+                .getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
         return authenticationManagerBuilder.build();
     }
 
@@ -48,21 +52,23 @@ public class WebSecurityConfig {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity
+                .getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder);
 
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 // dont authenticate this particular request
                 .antMatchers(
-                        Endpoints.VALIDATE_USER, //Endpoints.BOOK_ID,
-                        //Endpoints.ALL_BOOKS, Endpoints.ALL_PATRONS,
+                        Endpoints.VALIDATE_USER, // Endpoints.BOOK_ID,
+                        // Endpoints.ALL_BOOKS, Endpoints.ALL_PATRONS,
                         Endpoints.CREATE_USER,
-//                        Endpoints.CREATE_BOOK, Endpoints.CREATE_PATRON, Endpoints.DELETE_BOOK,
-//                        Endpoints.DELETE_PATRON, Endpoints.PATRON_ID, Endpoints.RETURN_BOOK,
-//                       Endpoints.UPDATE_BOOK, Endpoints.UPDATE_PATRON, Endpoints.BOOK_ID,
-//                       Endpoints.BORROW_BOOK, Endpoints.RETURN_BOOK,
-                        "/h2-console/**").permitAll()
+                        // Endpoints.CREATE_BOOK, Endpoints.CREATE_PATRON, Endpoints.DELETE_BOOK,
+                        // Endpoints.DELETE_PATRON, Endpoints.PATRON_ID, Endpoints.RETURN_BOOK,
+                        // Endpoints.UPDATE_BOOK, Endpoints.UPDATE_PATRON, Endpoints.BOOK_ID,
+                        // Endpoints.BORROW_BOOK, Endpoints.RETURN_BOOK,
+                        "/h2-console/**")
+                .permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated()
                 .and()
@@ -80,6 +86,12 @@ public class WebSecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
+        web.ignoring().mvcMatchers("/swagger-ui.html/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs",
+                "/webjars/**");
     }
 
 }

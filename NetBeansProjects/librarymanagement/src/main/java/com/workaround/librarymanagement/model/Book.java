@@ -18,9 +18,9 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Book implements Serializable{
-    
-     @Id
+public class Book {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;

@@ -10,6 +10,7 @@ import com.workaround.librarymanagement.DTO.User;
 import com.workaround.librarymanagement.constant.Endpoints;
 import com.workaround.librarymanagement.security.JwtTokenUtil;
 import com.workaround.librarymanagement.service.UserManagementService;
+import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,13 @@ public class UserAuthenticationController {
     private final JwtTokenUtil tokenService;
     private final UserManagementService userService;
     
+      @ApiOperation(value = "create a libarian user")
     @PostMapping(value = Endpoints.CREATE_USER, consumes = JSON, produces = JSON)
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         return userService.createUserProfile(user);
     }
     
+     @ApiOperation(value = "authenticate credentials")
      @PostMapping(value = Endpoints.VALIDATE_USER, consumes = JSON, produces = JSON)
     public ResponseEntity<?> authenticateAndGetToken(@RequestBody Credential authRequest) { 
         try{

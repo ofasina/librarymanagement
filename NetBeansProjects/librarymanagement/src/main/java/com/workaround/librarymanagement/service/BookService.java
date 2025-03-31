@@ -71,6 +71,18 @@ public class BookService {
         }
     }
 
+    public ResponseEntity<?> fetchBookByTitle(String title) {
+        try {
+            Optional<Book> getBook = bookRepo.findByTitle(title);
+            if (getBook.isEmpty()) {
+                return new ResponseEntity<>("No record found", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(getBook.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
     public ResponseEntity<?> deleteBook(long id) {
         try {
             Optional<Book> getBook = bookRepo.findById(id);

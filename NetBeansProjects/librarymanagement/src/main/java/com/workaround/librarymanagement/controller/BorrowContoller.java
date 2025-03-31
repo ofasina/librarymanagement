@@ -6,6 +6,7 @@ package com.workaround.librarymanagement.controller;
 
 import com.workaround.librarymanagement.constant.Endpoints;
 import com.workaround.librarymanagement.service.BorrowService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class BorrowContoller {
     private final BorrowService borrowService;
     private static final String JSON = MediaType.APPLICATION_JSON_VALUE;
 
+     @ApiOperation(value = "Borrow book")
     @PostMapping(value = Endpoints.BORROW_BOOK, consumes = JSON, produces = JSON)
     public ResponseEntity<?> borrowBook(@PathVariable(name = "bookId", required = true) long bookId,
             @PathVariable(name = "patronId", required = true) long patronId,
@@ -33,6 +35,7 @@ public class BorrowContoller {
         return borrowService.borrowBook(bookId, patronId, auth);
     }
 
+     @ApiOperation(value = "Returns book")
     @PutMapping(value = Endpoints.RETURN_BOOK, consumes = JSON, produces = JSON)
     public ResponseEntity<?> returnBook(
             @PathVariable(name = "bookId", required = true) long bookId,
